@@ -4,8 +4,11 @@ import sys
 
 '''
 This function takes in a filename, the contents of that file
-being a context-free grammar on CNF, and returns a created dictionary
-pertaining to that particular ruleset.
+being a context-free grammar in CNF, and returns a dictionary
+pertaining to that particular ruleset, of form:
+    { LHS: (tuple of RHS's allowed) }
+Rules in CFG, in CNF, of the form:
+    A:AB|BC
 '''
 def read_cfg(filename):
     cfg_dict = {}
@@ -15,9 +18,19 @@ def read_cfg(filename):
         cfg_dict[line_split[0]] = (line_split[1].strip().split('|'))
     return cfg_dict
 
+'''
+Creates an initial empty trellis, given an input string.
+Basically makes an empty NxNx1 list
+'''
 def create_trellis(instr):
     return [[list() for i in range(len(instr))] for j in range(len(instr))]
 
+'''
+Function prints a trellis in appropriate, nice-looking form.
+Given an instring and a trellis, we print out all
+elements of the trellis and the string on top/sides, so things
+line up properly
+'''
 def print_trellis(instr, trellis):
     print('{:>10}'.format(' '), end='')
     for letter in instr:
@@ -29,7 +42,16 @@ def print_trellis(instr, trellis):
             print('{:>10}'.format(','.join(item)), end='')
         print()
 
-
+'''
+Beefy bit of code. This function takes in as parameters,
+    1. cfg_dict: see read_cfg for details
+    2. trellis: see create_trellis for details
+    3. instr: simple in string
+Then, we go through the algorithm as described in algorithm.txt, printing
+    1. After 1'th step (strings of len 1)
+    2. After N'th step (string of len N, code done running)
+We then return our newly populated trellis.
+'''
 def populate_trellis(cfg_dict, trellis, instr):
     # initial population of trellis
     # could incorporate into the main loop, but I'd rather not
@@ -69,12 +91,15 @@ def populate_trellis(cfg_dict, trellis, instr):
 
 if __name__ == "__main__":
     assert (len(sys.argv) > 2), "Insufficient arguments"
+
     cfg_filename = sys.argv[1]
     instr = sys.argv[2]
+
     cfg_dict = read_cfg(cfg_filename)
     print("YOUR INPUT CFG IS AS FOLLOWS")
     for key, value in cfg_dict.items():
         print('\t',key, value)
+        
     init_trellis = create_trellis(instr)
     final_trellis = populate_trellis(cfg_dict, init_trellis, instr)
     print("YES" if "S" in final_trellis[0][len(instr)-1] else "NO")

@@ -1,1 +1,10 @@
-if there are variables B ε Xi,k, C ε Xk+1,i+step-1, and a rule A->BC
+Input: CFG in CNF, string u = x1...xn
+1. initialize all Xi,j to {}
+2. for i = 1 to n
+	for each variable A, if there is a rule A-> xi  then Xi,i=Xi,i ⋃ {A}
+3. for step 2 to n
+	for i = 1 to n - step +1
+		for k = i to i + step - 2
+			if there are variables B ε Xi,k, C ε Xk+1,i+step-1, and a rule A->BC:
+				Xi,i+step-1 = Xi,i+step-1 ⋃  {A}
+4. u ε L(G) if S ε X1,n

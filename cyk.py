@@ -15,7 +15,11 @@ def read_cfg(filename):
     infile = open(filename, "r")
     for line in infile:
         line_split = line.split(':')
-        cfg_dict[line_split[0]] = (line_split[1].strip().split('|'))
+        if line_split[0] in cfg_dict:
+            for each in line_split[1].strip().split('|'):
+                cfg_dict[line_split[0]].append(each)
+        else:
+            cfg_dict[line_split[0]] = line_split[1].strip().split('|')
     return cfg_dict
 
 '''
@@ -32,14 +36,14 @@ elements of the trellis and the string on top/sides, so things
 line up properly
 '''
 def print_trellis(instr, trellis):
-    print('{:>10}'.format(' '), end='')
+    print('{:>8}'.format(' '), end='')
     for letter in instr:
-        print('{:>10}'.format(letter), end='')
+        print('{:>8}'.format(letter), end='')
     print()
     for i, row in enumerate(trellis):
-        print('{:>10}'.format(instr[i]), end='')
+        print('{:>8}'.format(instr[i]), end='')
         for item in row:
-            print('{:>10}'.format(','.join(item)), end='')
+            print('{:>8}'.format(','.join(item)), end='')
         print()
 
 '''
@@ -93,8 +97,9 @@ if __name__ == "__main__":
     assert (len(sys.argv) > 2), "Insufficient arguments"
 
     cfg_filename = sys.argv[1]
-    instr = sys.argv[2]
-
+    # I'm lowercasing the entire input for the sake of simplicity, but it really shouldn't matter
+    instr = ' '.join(sys.argv[2:]).lower().split(' ')
+    print("YOUR INPUT SENTENCE IS:", ' '.join(instr))
     cfg_dict = read_cfg(cfg_filename)
     print("YOUR INPUT CFG IS AS FOLLOWS")
     for key, value in cfg_dict.items():

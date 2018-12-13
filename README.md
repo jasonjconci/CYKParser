@@ -13,10 +13,12 @@ a language, given a context free grammar in chomsky normal form.
 
 ## Instructions for use
 	At command line, run program as follows:
-		```$ python cyk.py cfgfile.txt <input string>```
-	Wherein <input string> is a sentence in the defined language, with spaces
-	between individual "words" (which I defined as terminals).
-		```Example: for cfg2, a sentence might be "a a b b"```
+		```$ python cyk.py cfgfile.txt stringfile.txt```
+	Wherein cfgfile is your file containing the grammar
+	stringfile is the file containing your string
+	NOTE
+	The string should have spaces between individual "words" (which I defined as terminals).
+		```Example: for cfg2, a sentence might be "a a b b". Put this in string file.```
 
 ## Further Notes
 	- There is little error checking done for the sake of brevity, and because this is implemented within academia, so silly inputs and the like can crash this. That said, with reasonable inputs, this program should work to specs.

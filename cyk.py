@@ -1,6 +1,24 @@
-#placeholder
+'''
+Name: Jason Conci
+Email: jconci@zagmail.gonzaga.edu
+Project: Test 3C, CYK Parser will return "yes" or "no" as to whether or not
+the string found in arguments is valid or not.
+Due Date: 12:00:00 12/14/2018
+
+-- MORE DETAILS IN README FOR RUNNING, ETC --
+'''
 
 import sys
+
+'''
+Function for reading in a simple instring
+'''
+def read_instr(filename):
+    infile = open(filename, 'r')
+    instr = ''
+    for line in infile:
+        instr += line.strip().lower()
+    return instr
 
 '''
 This function takes in a filename, the contents of that file
@@ -98,7 +116,7 @@ if __name__ == "__main__":
 
     cfg_filename = sys.argv[1]
     # I'm lowercasing the entire input for the sake of simplicity, but it really shouldn't matter
-    instr = ' '.join(sys.argv[2:]).lower().split(' ')
+    instr = read_instr(sys.argv[2]).split(' ')
     print("YOUR INPUT SENTENCE IS:", ' '.join(instr))
     cfg_dict = read_cfg(cfg_filename)
     print("YOUR INPUT CFG IS AS FOLLOWS")
